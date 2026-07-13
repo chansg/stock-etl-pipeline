@@ -3,3 +3,7 @@ pymongo==4.10.1
 boto3==1.35.54
 python-dotenv==1.0.1
 pytest==8.3.3
+
+# Semantic search
+sentence-transformers==3.3.1
+numpy==2.1.3
