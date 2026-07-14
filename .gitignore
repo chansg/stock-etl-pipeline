@@ -22,3 +22,6 @@ exports/
 # OS
 .DS_Store
 Thumbs.db
+
+# Generated artifacts
+rag_cache.json
