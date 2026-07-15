@@ -7,7 +7,19 @@ Finnhub API  →  Python  →  MongoDB (EC2)  →  JSON Export  →  AWS S3
                               ↓
                         Semantic Search
 ```
+## Demo
 
+The whole project runs through one polished CLI:
+
+```bash
+python demo.py
+```
+
+![alt text](images/home-page.png)
+
+*The menu-driven demo — pipeline, semantic search, and RAG, each runnable live.*
+
+---
 ## Dataset
 
 Live market data for twelve well-known technology companies (AAPL, MSFT, GOOGL, AMZN, NVDA, META, TSLA, NFLX, AMD, INTC, CRM, ORCL), pulled from the [Finnhub API](https://finnhub.io).
@@ -96,6 +108,8 @@ pytest -v                               # 16 tests
 
 **Upload** — pushes the JSON to S3 via Boto3, under the team's prefix. Timestamped filenames mean each run is traceable rather than overwriting the last.
 
+![alt text](images/extract-stage.png)
+![alt text](images/load_export_upload3.png)
 ## CRUD Operations
 
 | Operation | Function | Description |
@@ -121,6 +135,8 @@ Search the database for *"chip makers"* with a normal keyword query and you get 
 2. **Store** — the vector is saved back into the company's MongoDB document. No schema migration needed — one of the advantages of a document database.
 3. **Search** — the query is embedded with the same model, then ranked against every company by **cosine similarity**. Closest vectors = closest meaning.
 
+![alt text](images/semantics-chips-example.png)
+
 **Real result:**
 
 ```
@@ -141,6 +157,22 @@ Tesla scored a decisive **0.606**, matched purely on *"Automobiles"* in its prof
 - **Similarity is computed in Python**, not in MongoDB. Self-hosted MongoDB has no built-in vector search (that's a MongoDB Atlas feature). With twelve companies this is instant — and it means the actual similarity **scores** can be shown rather than hidden behind a black-box index.
 
 **Next step:** RAG — feeding the retrieved companies to an LLM as context so it can answer questions in natural language rather than returning a ranked list.
+
+## RAG — Retrieval-Augmented Generation
+
+Semantic search *finds* the right companies. RAG makes an LLM *answer* using them.
+
+1. **Retrieve** — semantic search pulls the relevant companies from MongoDB.
+2. **Augment** — those companies are pasted into the prompt as context.
+3. **Generate** — Claude reads that context and writes the answer.
+
+**Claude never sees the database.** We retrieve the data ourselves and hand it over in the prompt — which is how you get an LLM to answer questions about private or real-time data it was never trained on. Both halves of the dataset finally work together: the **text** finds the companies, the **numbers** answer the question.
+
+![alt text](images/rag_chip_example.png)
+
+*Retrieve → Augment → Generate. The answer quotes real prices from the retrieved documents — and the grounding prompt means it says so plainly when data is missing, rather than inventing figures.*
+
+The system prompt **grounds** the model against hallucination — it answers only from the supplied data. Answers are cached to `rag_cache.json` as an offline fallback.
 
 ---
 
