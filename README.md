@@ -1,4 +1,4 @@
-# Stock Market ETL Pipeline with Semantic Search
+# Stock Market ETL Pipeline with Semantic Search & RAG 
 
 A Python data pipeline that extracts live stock market data from a public API, stores it in MongoDB, serializes it to JSON, uploads it to AWS S3 — and lets you search the data by **meaning** rather than exact keywords.
 
