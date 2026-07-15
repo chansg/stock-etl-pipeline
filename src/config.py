@@ -30,6 +30,10 @@ AWS_REGION = os.getenv("AWS_REGION", "eu-central-1")
 S3_BUCKET = os.getenv("S3_BUCKET", "se-data-with-ai-etl-project")
 S3_PREFIX = os.getenv("S3_PREFIX", "")
 
+# --- Anthropic (for RAG) ---
+ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
+CLAUDE_MODEL = os.getenv("CLAUDE_MODEL", "claude-opus-4-8")
+
 # --- The companies we track ---
 # A fixed list of well-known tech tickers keeps the dataset predictable
 # and recognisable, and stays within the free tier's rate limit.

@@ -86,6 +86,11 @@ def semantic_search(query: str, top_k: int = 3) -> list[dict]:
                 "name": company["name"],
                 "industry": company.get("industry"),
                 "current_price": company.get("current_price"),
+                "percent_change": company.get("percent_change"),
+                "change": company.get("change"),
+                "day_high": company.get("day_high"),
+                "day_low": company.get("day_low"),
+                "market_cap_millions": company.get("market_cap_millions"),
                 "matched_text": company.get("embedding_text"),
                 "score": round(score, 4),
             }

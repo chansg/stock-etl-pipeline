@@ -7,3 +7,9 @@ pytest==8.3.3
 # Semantic search
 sentence-transformers==3.3.1
 numpy==2.1.3
+
+# RAG
+anthropic==0.69.0
+
+# Presentation CLI
+rich==13.9.4
